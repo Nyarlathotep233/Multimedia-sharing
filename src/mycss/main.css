@@ -1,0 +1,36 @@
+/* 
+colors:
+#247BA0
+#70C1B3
+#B2DBBF
+#F3FFBD
+#FF1654
+ */
+
+/* 
+colors:
+#05668D
+#028090
+#00A896
+#02C39A
+#F0F3BD
+ */
+
+* {
+    /* margin: 0; */
+    /* padding: 0; */
+    /* font-family: "Times New Roman", Times, serif; */
+    /* font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif; */
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+a {
+    text-decoration: none
+}
+
+body {
+    /* background-image: url('./图片1.png'); */
+    background-repeat: no-repeat;
+    background: #3e60c11f;
+    /* background: #F3FFBD; */
+}

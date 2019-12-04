@@ -1,6 +1,9 @@
 /* 改变主题色变量 */
-$--color-primary: teal;
-// $--color-primary: black;
+$--color-primary: #247BA0; //teal; //or teal or #02a9a9
+$--color-success: #67C23A;
+$--color-warning: #f1d932; //or#f3c500
+$--color-danger: #f52a2a;
+$--color-info: #909399;
 
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';

@@ -10,9 +10,9 @@
           <router-link to="/about">About</router-link>
         </div>
       </el-header>
-      <el-main style="overflow-x: hidden;">
+      <el-main id="maincontainer">
         <transition mode="out-in" :name="this.$store.state.transname">
-          <router-view style="min-height: 600px;" />
+          <router-view id="routerview" />
         </transition>
       </el-main>
       <el-footer>Footer</el-footer>
@@ -30,15 +30,26 @@
 }
 #nav {
   padding: 30px;
-
+  font-weight: bold;
   a {
-    font-weight: bold;
+    font-size: 18px;
     color: #2c3e50;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #247BA0//teal; //#42b983;
     }
   }
+}
+main {
+  overflow-x: hidden;
+  padding-top: 0;
+}
+#routerview {
+  min-height: 600px;
+  width: 95%;
+  // background: #0000ff57; //测试用
+  // border: 1px solid #2c3e50; //测试用
+  margin: 0 auto;
 }
 
 .right-enter {
@@ -64,6 +75,6 @@
 }
 .left-enter-active,
 .left-leave-active {
-  transition: all 0.5s ease;
+  transition: all 0.8s ease;
 }
 </style>
