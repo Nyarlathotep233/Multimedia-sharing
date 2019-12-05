@@ -2,19 +2,14 @@
   <el-tabs type="border-card">
     <el-tab-pane label="电影排名">
       <el-collapse v-model="activeName" accordion>
-        <el-collapse-item
-          v-for="(item, i) in list1"
-          :name="i"
-          :key="i"
-          class="rankinglist-video"
-        >
+        <el-collapse-item v-for="(item, i) in list1" :name="i" :key="i" class="rankinglist-video">
           <!-- :title="item['movieTitle']" -->
           <template slot="title">
             <i class="header-icon" style="margin-right: 10px;">{{ i + 1 }}</i>
             {{ item["movieTitle"] }}
           </template>
           <div style="display:flex">
-            <a :href="'https://maoyan.com' + item['movieLink']">
+            <a target="_blank" :href="'https://maoyan.com' + item['movieLink']">
               <div
                 class="img-container"
                 :style="'background-image: url(' + item['moviePoster'] + ');'"
@@ -33,9 +28,7 @@
               <div
                 class="movie-title movie-title-padding"
                 :title="item['movieTitle']"
-              >
-                {{ item["movieTitle"] }}
-              </div>
+              >{{ item["movieTitle"] }}</div>
             </div>
           </div>
         </el-collapse-item>

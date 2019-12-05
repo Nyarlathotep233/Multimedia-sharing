@@ -14,11 +14,8 @@
   </el-row>-->
   <div class="root">
     <div v-for="(item, i) in list1" :key="i" class="movie">
-      <a :href="'https://maoyan.com' + item['movieLink']">
-        <div
-          class="img-container"
-          :style="'background-image: url(' + item['moviePoster'] + ');'"
-        >
+      <a target="_blank" :href="'https://maoyan.com' + item['movieLink']">
+        <div class="img-container" :style="'background-image: url(' + item['moviePoster'] + ');'">
           <!-- <img :src="item['moviePoster']" alt /> -->
           <div style class="gray">
             <div class="info">{{ item["movieTitle"] }}</div>

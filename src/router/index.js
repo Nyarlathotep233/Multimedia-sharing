@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 import Video from '../views/Video.vue'
 import Music from '../views/Music.vue'
 import BBS from '../views/BBS.vue'
@@ -10,7 +10,8 @@ Vue.use(VueRouter)
 const routes = [{
     path: '/',
     name: 'home',
-    component: Home
+    // component: Home
+    redirect: '/video'
   },
   {
     path: '/video',

@@ -3,11 +3,11 @@
     <el-container>
       <el-header>
         <div id="nav">
-          <router-link to="/">Home</router-link>|
+          <!-- <router-link to="/">Home</router-link>| -->
           <router-link to="/video">Video</router-link>|
           <router-link to="/music">Music</router-link>|
-          <router-link to="/bbs">BBS</router-link>|
-          <router-link to="/about">About</router-link>
+          <router-link to="/bbs">BBS</router-link>
+          <!-- <router-link to="/about">About</router-link> -->
         </div>
       </el-header>
       <el-main id="maincontainer">
