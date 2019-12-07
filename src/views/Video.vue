@@ -15,48 +15,25 @@
       <el-button icon="el-icon-search" type="primary" @click="searchMovie"></el-button>
     </el-row>
     <el-row type="flex" justify="center">
-      <el-col :span="22" style="margin:0 50px">
-        <div class="whiteblock" style="padding: 10px;">
-          <div v-if="(!searchResult)&&(!first)">
+      <el-col :span="20" style="margin:0 50px">
+        <div
+          class="whiteblock"
+          :style="'padding: 10px;min-height:'+minHeight+'px;'"
+          v-loading="loading"
+          element-loading-text="搜索中"
+        >
+          <h2 class="search-collection" v-if="!first">搜索结果</h2>
+          <div v-if="!maoyanSearchResult &&!bilibiliSearchResult&&!first&&!loading">
             <p>无结果</p>
           </div>
-
-          <el-row :gutter="12">
-            <transition-group appear name="movieresult">
-              <el-col :span="12" v-for="(item,i) in searchResult" :key="'search result'+i">
-                <a target="_blank" :href="'https://maoyan.com' +item['movieLink']">
-                  <el-card shadow="hover">
-                    <!-- <div>
-                    <img :src="item['moviePoster']" class="image" />
-                    </div>-->
-                    <el-row style="min-height: 120px;">
-                      <el-col style="position: absolute;">
-                        <div
-                          class="img-container2"
-                          :style="'background-image: url(' + item['moviePoster'] + ');'"
-                        ></div>
-                      </el-col>
-                      <el-col :xs="24" :sm="24">
-                        <div style="padding: 14px;text-align:left;margin-left:160px">
-                          <div class="movie-score">
-                            <!-- <i >9.</i>
-                            <i class="fraction">0</i>-->
-                            <i class="video-score2">{{ item["movieDetail"] }}</i>
-                            <i class="video-score2" v-if="!item['movieDetail']">暂无</i>
-                          </div>
-                          <span>{{item["movieTitle"]}}</span>
-                          <div class="bottom clearfix">
-                            <!-- <time class="time">{{ currentDate }}</time> -->
-                            <!-- <el-button type="text" class="button">操作按钮</el-button> -->
-                          </div>
-                        </div>
-                      </el-col>
-                    </el-row>
-                  </el-card>
-                </a>
-              </el-col>
-            </transition-group>
-          </el-row>
+          <div v-if="maoyanSearchResult&&!loading">
+            <h3 class="search-collection">猫眼</h3>
+          </div>
+          <searchResultArea :searchResult="maoyanSearchResult"></searchResultArea>
+          <div v-if="bilibiliSearchResult&&!loading">
+            <h3 class="search-collection">BILIBILI</h3>
+          </div>
+          <searchResultArea :searchResult="bilibiliSearchResult"></searchResultArea>
         </div>
       </el-col>
     </el-row>
@@ -77,30 +54,45 @@
 <script>
 import MovieRankingList from "../components/MovieRankingList";
 import MoviePage from "../components/MoviePage";
+import searchResultArea from "../components/searchResultArea";
 export default {
   data() {
     return {
       search: "",
-      searchResult: "",
-      first: true
+      maoyanSearchResult: null,
+      bilibiliSearchResult: null,
+      first: true,
+      loading: false,
+      minHeight: 0
     };
   },
   components: {
     MovieRankingList,
-    MoviePage
+    MoviePage,
+    searchResultArea
   },
   created() {},
   methods: {
     searchMovie() {
       if (!this.search == "") {
+        this.maoyanSearchResult = null;
+        this.bilibiliSearchResult = null;
+        this.loading = true;
+        this.minHeight = 100;
         this.axios
           .get("http://127.0.0.1:3000/search?searchContent=" + this.search)
           .then(response => {
             this.first = false;
+            this.loading = false;
+            this.minHeight = 0;
             console.log(response);
-            this.searchResult = response.data;
-            if (!this.searchResult) {
-              console.log("无结果");
+            this.maoyanSearchResult = response.data.maoyan;
+            this.bilibiliSearchResult = response.data.bilibili;
+            if (this.maoyanSearchResult.length <= 0) {
+              this.maoyanSearchResult = null;
+            }
+            if (this.bilibiliSearchResult.length <= 0) {
+              this.bilibiliSearchResult = null;
             }
           });
       }
@@ -110,6 +102,12 @@ export default {
 </script>
 
 <style lang="scss">
+.search-collection {
+  text-align: left;
+  padding-left: 10px;
+  margin-left: 20px;
+  border-left: 5px solid red;
+}
 .video-score2 {
   color: rgb(255, 180, 0);
   cursor: pointer;
@@ -123,10 +121,11 @@ export default {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 .img-container2 {
-  height: 120px;
+  height: 220px;
   width: 160px;
   border-radius: 4px;
   overflow: hidden;
+  background-size: cover;
 }
 .el-row {
   margin-bottom: 20px;
