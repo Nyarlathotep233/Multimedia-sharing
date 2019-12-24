@@ -15,35 +15,40 @@
       <el-button icon="el-icon-search" type="primary" @click="searchMovie"></el-button>
     </el-row>
     <el-row type="flex" justify="center">
-      <el-col :span="20" style="margin:0 50px">
+      <el-col :span="24" style="margin:0 50px">
         <div
           class="whiteblock"
-          :style="'padding: 10px;min-height:'+minHeight+'px;'"
+          :style="'padding: 10px;min-height:' + minHeight + 'px;'"
           v-loading="loading"
           element-loading-text="搜索中"
         >
-          <h2 class="search-collection" v-if="!first">搜索结果</h2>
-          <div v-if="!maoyanSearchResult &&!bilibiliSearchResult&&!first&&!loading">
+          <h2 class="red-border-head" v-if="!first">搜索结果</h2>
+          <div
+            v-if="
+              !maoyanSearchResult && !bilibiliSearchResult && !first && !loading
+            "
+          >
             <p>无结果</p>
           </div>
-          <div v-if="maoyanSearchResult&&!loading">
-            <h3 class="search-collection">猫眼</h3>
+          <div v-if="maoyanSearchResult && !loading">
+            <h3 class="red-border-head">猫眼</h3>
           </div>
           <searchResultArea :searchResult="maoyanSearchResult"></searchResultArea>
-          <div v-if="bilibiliSearchResult&&!loading">
-            <h3 class="search-collection">BILIBILI</h3>
+          <div v-if="bilibiliSearchResult && !loading">
+            <h3 class="red-border-head">BILIBILI</h3>
           </div>
           <searchResultArea :searchResult="bilibiliSearchResult"></searchResultArea>
         </div>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center">
-      <el-col :span="15" style="min-width:600px;">
+      <el-col :span="16" style="min-width:600px;">
         <div class="whiteblock">
+          <h2 class="red-border-head">首页推荐</h2>
           <MoviePage />
         </div>
       </el-col>
-      <el-col :span="7">
+      <el-col :span="8">
         <div class="whiteblock" style="min-width:150px;">
           <MovieRankingList />
         </div>
@@ -85,7 +90,7 @@ export default {
             this.first = false;
             this.loading = false;
             this.minHeight = 0;
-            console.log(response);
+            // console.log(response);
             this.maoyanSearchResult = response.data.maoyan;
             this.bilibiliSearchResult = response.data.bilibili;
             if (this.maoyanSearchResult.length <= 0) {
@@ -102,7 +107,7 @@ export default {
 </script>
 
 <style lang="scss">
-.search-collection {
+.red-border-head {
   text-align: left;
   padding-left: 10px;
   margin-left: 20px;
@@ -152,14 +157,6 @@ export default {
 .row-bg {
   padding: 10px 0;
   background-color: #f9fafc;
-}
-
-.whiteblock {
-  // padding: 10px;
-  margin: 0 15px;
-  border-radius: 10px;
-  box-shadow: 0.5px 0.5px 3px 0px #247ba061; //rgba(0, 0, 255, 0.2);
-  background: white;
 }
 
 .movieresult-enter,

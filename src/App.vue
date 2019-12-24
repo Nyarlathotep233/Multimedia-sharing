@@ -4,21 +4,74 @@
       <el-header>
         <div id="nav">
           <!-- <router-link to="/">Home</router-link>| -->
-          <router-link to="/video">Video</router-link>|
-          <router-link to="/music">Music</router-link>|
-          <router-link to="/bbs">BBS</router-link>
-          <!-- <router-link to="/about">About</router-link> -->
+          <router-link
+            to="/video"
+            :onclick="'if ('+this.$store.state.webRtcON+') {location.reload();}'"
+          >Video</router-link>|
+          <router-link
+            to="/music"
+            :onclick="'if ('+this.$store.state.webRtcON+') {location.reload();}'"
+          >Music</router-link>|
+          <router-link
+            to="/Chat"
+            :onclick="'if ('+this.$store.state.webRtcON+') {location.reload();}'"
+          >Chat</router-link>|
+          <!-- <router-link :to="videoChatUrl" onclick="location.reload();">Chat</router-link>| -->
+          <router-link
+            to="/about"
+            :onclick="'if ('+this.$store.state.webRtcON+') {location.reload();}'"
+          >About</router-link>
+        </div>
+        <div id="update-by-spider">
+          <el-button type="danger" round @click="updateBySpider">更新爬虫</el-button>
         </div>
       </el-header>
       <el-main id="maincontainer">
         <transition mode="out-in" :name="this.$store.state.transname">
-          <router-view id="routerview" />
+          <router-view id="routerview" :key="keyNum" />
         </transition>
       </el-main>
       <el-footer>Footer</el-footer>
     </el-container>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      keyNum: 0,
+      videoChatUrl: ""
+    };
+  },
+  provide() {
+    return {
+      reload: this.reload
+    };
+  },
+  methods: {
+    reload() {
+      // console.log(this.keyNum++);
+    },
+    updateBySpider() {
+      this.axios.get("http://127.0.0.1:3000/updateBySpider").then(response => {
+        console.log(response.data);
+      });
+    },
+    closeWebRTC() {}
+  },
+  created() {
+    var nowroom = this.$route.query.room;
+    this.videoChatUrl = "/bbs?room=" + nowroom;
+    if (
+      window.location.href
+        .substring(window.location.protocol.length)
+        .split("#")[1] == "/bbs"
+    ) {
+      this.videoChatUrl = "/";
+    }
+  }
+};
+</script>
 
 <style lang="scss" scoped>
 #app {
@@ -39,6 +92,11 @@
       color: #247BA0//teal; //#42b983;
     }
   }
+}
+#update-by-spider {
+  position: absolute;
+  right: 20px;
+  top: 20px;
 }
 main {
   overflow-x: hidden;

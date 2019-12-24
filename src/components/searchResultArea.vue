@@ -1,12 +1,12 @@
 <template>
-  <el-row :gutter="12" style="margin-bottom: 0">
+  <el-row :gutter="12" style="margin-bottom: 0;">
     <transition-group appear name="movieresult">
       <el-col
         :xs="24"
         :sm="24"
         :md="12"
-        :lg="8"
-        :xl="6"
+        :lg="12"
+        :xl="8"
         v-for="(item, i) in searchResult"
         :key="'search result' + i"
       >
@@ -15,7 +15,7 @@
             <!-- <div>
                     <img :src="item['moviePoster']" class="image" />
             </div>-->
-            <el-row style="height: 220px;">
+            <el-row style="height: 178px;">
               <!-- <div
                   class="img-container2"
                   :style="'background-image: url(' + item['moviePoster'] + ');'"
@@ -23,17 +23,19 @@
               <el-image
                 :src="item['moviePoster']"
                 fit="cover"
-                style="width: 160px; height: 220px;position: absolute;left: 0;top: 0;"
+                style="width: 130px; height: 178px;position: absolute;left: 0;top: 0;"
               ></el-image>
               <el-col :xs="24" :sm="24">
-                <div style="padding: 14px;text-align:left;margin-left:160px">
+                <div style="padding: 14px;text-align:left;margin-left:130px">
                   <div class="movie-score">
                     <!-- <i >9.</i>
                     <i class="fraction">0</i>-->
                     <i class="video-score2">{{ item["movieScore"] }}</i>
-                    <i class="video-score2" v-if="!item['movieScore']">评分暂无</i>
+                    <i class="video-score2" v-if="!item['movieScore']"
+                      >评分暂无</i
+                    >
                   </div>
-                  <span>{{ item["movieTitle"] }}</span>
+                  <p class="movie-name">{{ item["movieTitle"] }}</p>
                   <div class="bottom clearfix">
                     <!-- <time class="time">{{ currentDate }}</time> -->
                     <!-- <el-button type="text" class="button">操作按钮</el-button> -->
@@ -52,3 +54,12 @@ export default {
   props: ["searchResult"]
 };
 </script>
+<style lang="scss" scoped>
+.movie-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  // margin: 8px 0;
+}
+</style>

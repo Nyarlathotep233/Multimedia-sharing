@@ -92,23 +92,23 @@ export default {
 
   created() {
     this.axios.get("http://127.0.0.1:3000/movierecommend").then(response => {
-      console.log(response);
+      // console.log(response);
       this.list1 = response.data;
     });
     this.axios
       .get("http://127.0.0.1:3000/movieListRankingBox")
       .then(response => {
-        console.log(response);
+        // console.log(response);
         this.list2 = response.data;
       });
     this.axios
       .get("http://127.0.0.1:3000/movieListMostExcept")
       .then(response => {
-        console.log(response);
+        // console.log(response);
         this.list3 = response.data;
       });
     this.axios.get("http://127.0.0.1:3000/movieListTop100").then(response => {
-      console.log(response);
+      // console.log(response);
       this.list4 = response.data;
     });
   }

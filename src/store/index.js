@@ -12,11 +12,19 @@ export default new Vuex.Store({
       "/music": 3,
       "/bbs": 4,
       "/about": 5
-    }
+    },
+    webRTCRoom: 'default',
+    webRtcON: false,
   },
   mutations: {
     updatetransname(state, arg) {
       state.transname = arg;
+    },
+    updateWebRTCRoom(state, arg) {
+      state.webRTCRoom = arg;
+    },
+    updateWebRtcON(state, arg) {
+      state.webRtcON = arg;
     }
   },
   actions: {},

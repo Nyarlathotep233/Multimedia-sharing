@@ -46,7 +46,7 @@ export default {
   },
   created() {
     this.axios.get("http://127.0.0.1:3000/movielist").then(response => {
-      console.log(response);
+      // console.log(response);
       this.list1 = response.data;
     });
   }
