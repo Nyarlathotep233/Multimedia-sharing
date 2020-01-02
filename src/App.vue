@@ -31,7 +31,7 @@
           <router-view id="routerview" :key="keyNum" />
         </transition>
       </el-main>
-      <el-footer>Footer</el-footer>
+      <el-footer>作者:zzc</el-footer>
     </el-container>
   </div>
 </template>
@@ -54,7 +54,7 @@ export default {
     },
     updateBySpider() {
       this.axios.get("http://127.0.0.1:3000/updateBySpider").then(response => {
-        console.log(response.data);
+        // console.log(response.data);
       });
     },
     closeWebRTC() {}

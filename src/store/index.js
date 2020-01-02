@@ -10,7 +10,7 @@ export default new Vuex.Store({
       "/": 1,
       "/video": 2,
       "/music": 3,
-      "/bbs": 4,
+      "/Chat": 4,
       "/about": 5
     },
     webRTCRoom: 'default',

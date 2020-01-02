@@ -179,7 +179,7 @@ export default {
           ]);
         }
       }
-      console.log(this.Recommend);
+      // console.log(this.Recommend);
     });
   }
 };
