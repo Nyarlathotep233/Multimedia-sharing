@@ -11,7 +11,7 @@ export default {
   name: "home",
   components: {},
   created() {
-    this.axios.get("/test").then(response => {
+    this.axios.post("/test").then(response => {
       console.log(response);
     });
   }
