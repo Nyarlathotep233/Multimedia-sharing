@@ -10,10 +10,7 @@
           </template>
           <div style="display:flex">
             <a target="_blank" :href="item['movieLink']">
-              <div
-                class="img-container"
-                :style="'background-image: url(' + item['moviePoster'] + ');'"
-              >
+              <div class="img-container" :style="'background-image: url(' + item['moviePoster'] + ');'">
                 <!-- <img :src="item['moviePoster']" alt /> -->
               </div>
             </a>
@@ -25,10 +22,7 @@
                 <i class="video-score">{{ item["movieDetail"] }}</i>
                 <i class="video-score" v-if="!item['movieDetail']">暂无</i>
               </div>
-              <div
-                class="movie-title movie-title-padding"
-                :title="item['movieTitle']"
-              >{{ item["movieTitle"] }}</div>
+              <div class="movie-title movie-title-padding" :title="item['movieTitle']">{{ item["movieTitle"] }}</div>
             </div>
           </div>
         </el-collapse-item>
@@ -79,108 +73,108 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      list1: [],
-      list2: [],
-      list3: [],
-      list4: [],
-      activeName: 0
-    };
-  },
+  export default {
+    data () {
+      return {
+        list1: [],
+        list2: [],
+        list3: [],
+        list4: [],
+        activeName: 0
+      };
+    },
 
-  created() {
-    this.axios.get("http://127.0.0.1:3000/movierecommend").then(response => {
-      // console.log(response);
-      this.list1 = response.data;
-    });
-    this.axios
-      .get("http://127.0.0.1:3000/movieListRankingBox")
-      .then(response => {
+    created () {
+      this.axios.get("/movierecommend").then(response => {
         // console.log(response);
-        this.list2 = response.data;
+        this.list1 = response.data;
       });
-    this.axios
-      .get("http://127.0.0.1:3000/movieListMostExcept")
-      .then(response => {
+      this.axios
+        .get("/movieListRankingBox")
+        .then(response => {
+          // console.log(response);
+          this.list2 = response.data;
+        });
+      this.axios
+        .get("/movieListMostExcept")
+        .then(response => {
+          // console.log(response);
+          this.list3 = response.data;
+        });
+      this.axios.get("/movieListTop100").then(response => {
         // console.log(response);
-        this.list3 = response.data;
+        this.list4 = response.data;
       });
-    this.axios.get("http://127.0.0.1:3000/movieListTop100").then(response => {
-      // console.log(response);
-      this.list4 = response.data;
-    });
-  }
-};
+    }
+  };
 </script>
 <style lang="scss" scoped>
-.rankinglist-video {
-  margin-bottom: 0;
-  // background: #b2dbbf;
-  background: rgba(0, 0, 0, 0);
-  // border: 0.5px solid #99a9bf;
-  min-height: 36px;
-  &:last-child {
+  .rankinglist-video {
     margin-bottom: 0;
+    // background: #b2dbbf;
+    background: rgba(0, 0, 0, 0);
+    // border: 0.5px solid #99a9bf;
+    min-height: 36px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .header-icon {
+      cursor: pointer;
+      display: inline-block;
+      font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+      font-size: 18px;
+      font-style: italic;
+      height: 35px;
+      line-height: 35px;
+      list-style-image: none;
+      list-style-position: outside;
+      list-style-type: none;
+      text-align: left;
+      text-size-adjust: 100%;
+      vertical-align: top;
+      width: 20px;
+      -webkit-font-smoothing: subpixel-antialiased;
+    }
+    .img-container {
+      height: 220px;
+      width: 160px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .movie-info {
+      margin: 0 10px;
+    }
+    .movie-overlay {
+      background-attachment: scroll;
+      background-clip: border-box;
+      background-color: rgba(0, 0, 0, 0);
+      background-origin: padding-box;
+      background-position-x: 50%;
+      background-position-y: 100%;
+      background-size: auto;
+      color: rgb(0, 0, 238);
+      cursor: pointer;
+      display: block;
+      font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+      height: 220px;
+      left: 0px;
+      position: absolute;
+      text-size-adjust: 100%;
+      top: 0px;
+      width: 160px;
+      -webkit-font-smoothing: subpixel-antialiased;
+    }
   }
-  .header-icon {
+  .video-score {
+    color: rgb(255, 180, 0);
     cursor: pointer;
-    display: inline-block;
-    font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
-    font-size: 18px;
+    display: inline;
+    font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+    font-size: 22px;
     font-style: italic;
-    height: 35px;
-    line-height: 35px;
-    list-style-image: none;
-    list-style-position: outside;
-    list-style-type: none;
-    text-align: left;
+    height: auto;
     text-size-adjust: 100%;
-    vertical-align: top;
-    width: 20px;
+    width: auto;
     -webkit-font-smoothing: subpixel-antialiased;
   }
-  .img-container {
-    height: 220px;
-    width: 160px;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .movie-info {
-    margin: 0 10px;
-  }
-  .movie-overlay {
-    background-attachment: scroll;
-    background-clip: border-box;
-    background-color: rgba(0, 0, 0, 0);
-    background-origin: padding-box;
-    background-position-x: 50%;
-    background-position-y: 100%;
-    background-size: auto;
-    color: rgb(0, 0, 238);
-    cursor: pointer;
-    display: block;
-    font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
-    height: 220px;
-    left: 0px;
-    position: absolute;
-    text-size-adjust: 100%;
-    top: 0px;
-    width: 160px;
-    -webkit-font-smoothing: subpixel-antialiased;
-  }
-}
-.video-score {
-  color: rgb(255, 180, 0);
-  cursor: pointer;
-  display: inline;
-  font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
-  font-size: 22px;
-  font-style: italic;
-  height: auto;
-  text-size-adjust: 100%;
-  width: auto;
-  -webkit-font-smoothing: subpixel-antialiased;
-}
 </style>
