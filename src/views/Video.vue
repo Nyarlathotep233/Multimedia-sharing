@@ -117,7 +117,7 @@
     height: 220px;
     width: 160px;
     border-radius: 4px;
-    overflow: hidden;
+    // overflow: hidden;
     background-size: cover;
   }
   .el-row {

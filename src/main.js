@@ -15,7 +15,8 @@ Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
-// axios.defaults.baseURL = 'http://localhost:3000'
+// axios.defaults.baseURL = 'https://localhost:3000'
+axios.defaults.baseURL='https://zhangzec.vip:8080'
 
 // import 'element-ui/lib/theme-chalk/index.css'; //默认
 import "./mycss/element-variables.scss"; //修改后的样式

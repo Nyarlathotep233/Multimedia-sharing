@@ -11,7 +11,9 @@
           <router-link to="/about" :onclick="'if ('+this.$store.state.webRtcON+') {location.reload();}'">About</router-link>
         </div>
         <div id="update-by-spider">
-          <el-button type="danger" round @click="updateBySpider">更新爬虫</el-button>
+          <el-tooltip class="item" effect="dark" :content="'上次更新:'+lastUpdate" placement="bottom">
+            <el-button type="danger" round @click="updateBySpider">更新爬虫</el-button>
+          </el-tooltip>
         </div>
       </el-header>
       <el-main id="maincontainer">
@@ -28,7 +30,8 @@
     data () {
       return {
         keyNum: 0,
-        videoChatUrl: ""
+        videoChatUrl: "",
+        lastUpdate: null
       };
     },
     provide () {
@@ -42,7 +45,8 @@
       },
       updateBySpider () {
         this.axios.get("/updateBySpider").then(response => {
-          // console.log(response.data);
+          let date = new Date(response.data.date)
+          this.lastUpdate = date.getFullYear() + "-" + (date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + "-" + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
         });
       },
       closeWebRTC () { }
@@ -57,6 +61,10 @@
       ) {
         this.videoChatUrl = "/";
       }
+      this.axios.get("/lastUpdate").then(response => {
+        let date = new Date(response.data.date)
+        this.lastUpdate = date.getFullYear() + "-" + (date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + "-" + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+      });
     }
   };
 </script>
