@@ -42,6 +42,12 @@ String.prototype.endWithImg = function () {
   return flag
 }
 
+
+function revokeIt () {
+  console.log("revokeIt")
+}
+
+
 new Vue({
   store,
   router,

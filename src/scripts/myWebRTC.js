@@ -75,17 +75,6 @@ function myWebRTC(SkyRTC, roomName, bbs) {
           }
           bbs.chatRecords.push(img)
           window.URL.revokeObjectURL(url);
-
-          // var reader = new FileReader();
-          // reader.onload = (function (aImg) {
-          //   return function (e) {
-          //     let url = e.target.result
-          //     // aImg.src = url;
-          //     console.log(aImg, '!!!!!!!!!!!')
-          //     aImg.info = url(window.URL || window.webkitURL).revokeObjectURL(url);
-          //   }
-          // })(img);
-          // reader.readAsDataURL(file);
         }
 
       };
@@ -166,7 +155,7 @@ function myWebRTC(SkyRTC, roomName, bbs) {
         });
       p.parentNode.removeChild(p);
       // console.log(url, '!!!!!!!!!!!!!!!!!!!!!!!!!!')
-      if (name.endWith(".jpg") || name.endWith(".png")) {
+      if (name.endWithImg()) {
         var user
         if (socketId.length > 10) {
           user = socketId.slice(0, 5) + "...";

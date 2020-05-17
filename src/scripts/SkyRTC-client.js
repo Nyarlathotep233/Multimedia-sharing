@@ -484,7 +484,7 @@ var SkyRTC = function () {
       reader,
       fileToSend,
       sendId;
-    if (dom instanceof File) {
+    if (dom instanceof Blob) {
       console.log("it's a file")
       file = dom
     } else {
@@ -579,7 +579,7 @@ var SkyRTC = function () {
       reader,
       initSending = function (event, text) {
         fileToSend.state = "send";
-        fileToSend.fileData = event.target.result;
+        fileToSend.fileData = event.target.result;// 文件里的数据会在这里被打印出来
         fileToSend.sendedPackets = 0;
         fileToSend.packetsToSend = fileToSend.allPackets = parseInt(fileToSend.fileData.length / packetSize, 10);
         that.sendFileChunks();
@@ -656,10 +656,11 @@ var SkyRTC = function () {
       fileInfo = that.receiveFiles[sendId];
 
     let url = fileInfo.data;
+    // console.log("fileInfo.data:",url)
 
 
     // (window.URL || window.webkitURL).revokeObjectURL(url); //释放一个通过URL.createObjectURL()创建的对象URL.
-    that.emit("receive_file", sendId, fileInfo.socketId, fileInfo.name, url);
+    that.emit("receive_file", sendId, fileInfo.socketId, fileInfo.name, url);//url就是文件的data或文本
     that.cleanReceiveFile(sendId);
   };
 

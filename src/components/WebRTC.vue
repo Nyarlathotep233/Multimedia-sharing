@@ -4,7 +4,7 @@
     <el-row style="margin-top:5px">
       <el-col :span="8">
         <div id="chat" class="whiteblock message-block" style="height:1000px;padding:10px">
-          <div style="overflow: auto;">
+          <div>
             <el-row :gutter="5">
               <h2>{{roomName}}</h2>
             </el-row>
@@ -22,7 +22,9 @@
                 <div class="type-img" v-if="record.type==='img'">
                   <p class="user-name">{{record.user}}</p>
                   <span>:</span>
-                  <img :src="record.info" />
+                  <!-- <img @load="revokeURL(record.info)" :src="record.info" /> -->
+                  <img :onload="makeStr(record.info)" :src="record.info" />
+                  <!-- 在vue中使用@load而非onload,为什么 -->
                 </div>
 
               </div>
@@ -174,6 +176,46 @@
   }
 </style>
 <script>
+  function filetoDataURL (file, fn) {
+    var reader = new FileReader();
+    reader.onloadend = function (e) {
+      fn(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function dataURLtoImage (dataurl, fn) {
+    var img = new Image();
+    img.onload = function () {
+      fn(img);
+    };
+    img.src = dataurl;
+  }
+
+  function imagetoCanvas (image) {
+    var cvs = document.createElement("canvas");
+    var ctx = cvs.getContext('2d');
+    cvs.width = image.width;
+    cvs.height = image.height;
+    ctx.drawImage(image, 0, 0, cvs.width, cvs.height);
+    return cvs;
+  }
+
+  function canvasResizetoFile (canvas, quality, fn) {
+    canvas.toBlob(function (blob) {
+      fn(blob);
+    }, 'image/jpeg', quality);
+  }
+
+  function fileResizetoFile (file, quality, fn) {
+    filetoDataURL(file, function (dataurl) {
+      dataURLtoImage(dataurl, function (image) {
+        canvasResizetoFile(imagetoCanvas(image), quality, fn);
+      })
+    })
+  }
+
+
 
   import { SkyRTC } from "../scripts/SkyRTC-client";
   import { myWebRTC } from "../scripts/myWebRTC";
@@ -198,15 +240,17 @@
       this.connect = myWebRTC(SkyRTC, this.$route.query.roomName, this);
       this.roomName = this.$route.query.roomName;
       this.$store.commit("updateWebRtcON", true);
-    },
-    updated () {
-      for (let record in this.chatRecords) {
-        if (record.type === 'img') {
-          window.URL.revokeObjectURL(record.info);
-        }
-      }
+      window.revokeURL = this.revokeURL;
     },
     methods: {
+      makeStr (url) {
+        return 'revokeURL("' + url + '")'
+      },
+      revokeURL (url) {
+        console.log('!!!!!!!!!', url);
+        (window.URL || window.webkitURL).revokeObjectURL(url);
+        // return 'revokeIt("' + url + '")'
+      },
       refresh () {
         this.$router.push({
           path: "/Chat/WebRTC",
@@ -244,17 +288,24 @@
       beforeUpload (file) {
         console.log("beforeUpload", file);
         var msgs = document.getElementById("msgs");
-        this.connect.shareFile(file);
-        if (file.name.endWithImg()) {
+        var that = this
+        var name = file.name
 
-          let url = window.URL.createObjectURL(file);
-          let img = {
-            type: 'img',
-            user: 'me',
-            info: url
-          }
-          this.chatRecords.push(img)
-          // window.URL.revokeObjectURL(url);
+        if (file.name.endWithImg()) {
+          fileResizetoFile(file, 0.6, function (blob) {//这里的file是个Blob实例
+            let file = new File([blob], name, { type: 'image/jpeg' })
+            //拿到file，做下一步操作；
+            that.connect.shareFile(file);
+            let url = window.URL.createObjectURL(file);
+            let img = {
+              type: 'img',
+              user: 'me',
+              info: url
+            }
+            that.chatRecords.push(img)
+          })
+        } else {
+          this.connect.shareFile(file);
         }
         return false
       },
