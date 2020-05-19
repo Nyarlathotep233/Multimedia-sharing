@@ -10,6 +10,9 @@
           <!-- <router-link :to="videoChatUrl" onclick="location.reload();">Chat</router-link>| -->
           <router-link to="/about" :onclick="'if ('+this.$store.state.webRtcON+') {location.reload();}'">About</router-link>
         </div>
+        <!-- <div id="user">
+          <el-button v-show="!userInfo" round @click="login">登录</el-button>
+        </div> -->
         <div id="update-by-spider">
           <el-tooltip class="item" effect="dark" :content="'上次更新:'+lastUpdate" placement="bottom">
             <el-button type="danger" round @click="updateBySpider">更新爬虫</el-button>
@@ -20,24 +23,50 @@
         <transition mode="out-in" :name="this.$store.state.transname">
           <router-view id="routerview" :key="keyNum" />
         </transition>
+
+        <el-dialog title="登录" :visible.sync="loginVisible" width="40%" max-width="600px">
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="登录" name="login">
+              <login></login>
+            </el-tab-pane>
+            <el-tab-pane label="注册" name="register">
+              <Register></Register>
+            </el-tab-pane>
+          </el-tabs>
+
+        </el-dialog>
+
       </el-main>
       <el-footer>作者:zzc</el-footer>
     </el-container>
   </div>
 </template>
 <script>
+  import Login from "./components/Login"
+  import Register from "./components/Register.vue"
   export default {
+    computed: {
+      userInfo () {
+        return this.$store.state.userInfo
+      }
+    },
     data () {
       return {
         keyNum: 0,
         videoChatUrl: "",
-        lastUpdate: null
+        lastUpdate: null,
+        loginVisible: false,
+        activeName: 'login'
       };
     },
     provide () {
       return {
         reload: this.reload
       };
+    },
+    components: {
+      Login,
+      Register
     },
     methods: {
       reload () {
@@ -49,7 +78,12 @@
           this.lastUpdate = date.getFullYear() + "-" + (date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + "-" + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
         });
       },
-      closeWebRTC () { }
+      closeWebRTC () { },
+      login () {
+        this.loginVisible = true
+        this.activeName = 'login'
+      }
+
     },
     created () {
       var nowroom = this.$route.query.room;
@@ -92,6 +126,11 @@
   #update-by-spider {
     position: absolute;
     right: 20px;
+    top: 20px;
+  }
+  #user {
+    position: absolute;
+    left: 20px;
     top: 20px;
   }
   main {

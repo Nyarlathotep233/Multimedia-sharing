@@ -15,6 +15,7 @@ export default new Vuex.Store({
     },
     webRTCRoom: 'default',
     webRtcON: false,
+    userInfo:null
   },
   mutations: {
     updatetransname(state, arg) {
